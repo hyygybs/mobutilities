@@ -9,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -22,7 +21,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 public final class MobLootHelper {
@@ -32,14 +30,10 @@ public final class MobLootHelper {
     }
 
     public static Optional<MobContainerData> createRandomMob(ServerLevel level) {
-        Set<String> blacklist = Set.copyOf(MobUtilitiesConfig.REGENERATOR_MOB_BLACKLIST.get());
         List<EntityType<?>> candidates = ForgeRegistries.ENTITY_TYPES.getValues().stream()
                 .filter(EntityType::canSummon)
                 .filter(type -> type.create(level) instanceof Mob mob && MobContainerData.canCapture(mob))
-                .filter(type -> {
-                    net.minecraft.resources.ResourceLocation id = ForgeRegistries.ENTITY_TYPES.getKey(type);
-                    return id == null || !blacklist.contains(id.toString());
-                })
+                .filter(type -> hasEntityLootTable(level, type))
                 .toList();
 
         if (candidates.isEmpty()) {
@@ -55,6 +49,24 @@ public final class MobLootHelper {
         return Optional.of(MobContainerData.fromEntity(livingEntity));
     }
 
+    private static boolean hasEntityLootTable(ServerLevel level, EntityType<?> type) {
+        Entity entity = type.create(level);
+        if (!(entity instanceof LivingEntity livingEntity)) {
+            return false;
+        }
+
+        ResourceLocation lootTableId = livingEntity.getLootTable();
+        if (lootTableId == null || lootTableId.getPath().isBlank()) {
+            return false;
+        }
+
+        ResourceLocation lootTablePath = ResourceLocation.fromNamespaceAndPath(
+                lootTableId.getNamespace(),
+                "loot_tables/" + lootTableId.getPath() + ".json"
+        );
+        return level.getServer().getResourceManager().getResource(lootTablePath).isPresent();
+    }
+
     public static List<ItemStack> generateLoot(ServerLevel level, MobContainerData data, boolean playerKill, int lootingUpgrades) {
         Entity entity = data.createEntity(level);
         if (!(entity instanceof LivingEntity livingEntity)) {
@@ -66,21 +78,25 @@ public final class MobLootHelper {
 
         LootParams.Builder builder = new LootParams.Builder(level)
                 .withParameter(LootContextParams.THIS_ENTITY, livingEntity)
-                .withParameter(LootContextParams.ORIGIN, livingEntity.position())
-                .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic());
+                .withParameter(LootContextParams.ORIGIN, livingEntity.position());
 
         if (playerKill) {
             FakePlayer fakePlayer = FakePlayerFactory.get(level, new com.mojang.authlib.GameProfile(FAKE_PLAYER_UUID, "[MobUtilities]"));
+            builder.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().playerAttack(fakePlayer));
             builder.withOptionalParameter(LootContextParams.KILLER_ENTITY, fakePlayer);
             builder.withOptionalParameter(LootContextParams.LAST_DAMAGE_PLAYER, fakePlayer);
             builder.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, fakePlayer);
+        } else {
+            builder.withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic());
         }
 
         ResourceLocation baseTableId = livingEntity.getLootTable();
         LootTable lootTable = LootTable.EMPTY;
         if (baseTableId != null) {
-            ResourceLocation overrideTableId = new ResourceLocation(MobUtilities.MOD_ID,
-                    "mob_farm/" + baseTableId.getNamespace() + "/" + baseTableId.getPath());
+            ResourceLocation overrideTableId = ResourceLocation.fromNamespaceAndPath(
+                    MobUtilities.MOD_ID,
+                    "mob_farm/" + baseTableId.getNamespace() + "/" + baseTableId.getPath()
+            );
             LootTable override = level.getServer().getLootData().getLootTable(overrideTableId);
             lootTable = override == LootTable.EMPTY ? level.getServer().getLootData().getLootTable(baseTableId) : override;
         }

@@ -1,6 +1,8 @@
 package com.hyygybs.mobutilities.common.util;
 
+import com.hyygybs.mobutilities.MobUtilities;
 import com.hyygybs.mobutilities.MobUtilitiesConfig;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -74,7 +76,15 @@ public final class MobLootHelper {
             builder.withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, fakePlayer);
         }
 
-        LootTable lootTable = level.getServer().getLootData().getLootTable(livingEntity.getLootTable());
+        ResourceLocation baseTableId = livingEntity.getLootTable();
+        LootTable lootTable = LootTable.EMPTY;
+        if (baseTableId != null) {
+            ResourceLocation overrideTableId = new ResourceLocation(MobUtilities.MOD_ID,
+                    "mob_farm/" + baseTableId.getNamespace() + "/" + baseTableId.getPath());
+            LootTable override = level.getServer().getLootData().getLootTable(overrideTableId);
+            lootTable = override == LootTable.EMPTY ? level.getServer().getLootData().getLootTable(baseTableId) : override;
+        }
+
         List<ItemStack> drops = new ArrayList<>(lootTable.getRandomItems(builder.create(LootContextParamSets.ENTITY)));
 
         if (lootingUpgrades > 0) {

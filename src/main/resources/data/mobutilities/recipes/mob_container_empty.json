@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "G G",
+    " G "
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "mobutilities:mob_container_empty",
+    "count": 1
+  }
+}

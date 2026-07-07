@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IFI",
+    "IPI",
+    "IUI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "U": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "mobutilities:resolver",
+    "count": 1
+  }
+}

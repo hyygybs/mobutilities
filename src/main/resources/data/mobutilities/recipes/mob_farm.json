@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IEI",
+    "IRI",
+    "IUI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "E": {
+      "item": "mobutilities:experience"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "U": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "mobutilities:mob_farm",
+    "count": 1
+  }
+}

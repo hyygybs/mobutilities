@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "mobutilities:block/blood_energy_generator_off"
+    },
+    "lit=true": {
+      "model": "mobutilities:block/blood_energy_generator_on"
+    }
+  }
+}

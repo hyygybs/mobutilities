@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "mobutilities:block/resolver_off"
+    },
+    "lit=true": {
+      "model": "mobutilities:block/resolver_on"
+    }
+  }
+}

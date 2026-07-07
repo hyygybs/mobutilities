@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IGI",
+    "IRI",
+    "IUI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "U": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "mobutilities:regenerator",
+    "count": 1
+  }
+}

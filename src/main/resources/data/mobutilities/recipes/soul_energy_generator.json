@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "IRI",
+    "IUI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "mobutilities:spirit"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "U": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "mobutilities:soul_energy_generator",
+    "count": 1
+  }
+}

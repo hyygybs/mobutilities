@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IMI",
+    "IRI",
+    "IUI"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "mobutilities:matter"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "U": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "item": "mobutilities:blood_energy_generator",
+    "count": 1
+  }
+}

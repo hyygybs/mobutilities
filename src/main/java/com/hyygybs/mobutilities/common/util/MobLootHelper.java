@@ -20,6 +20,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public final class MobLootHelper {
@@ -29,9 +30,14 @@ public final class MobLootHelper {
     }
 
     public static Optional<MobContainerData> createRandomMob(ServerLevel level) {
+        Set<String> blacklist = Set.copyOf(MobUtilitiesConfig.REGENERATOR_MOB_BLACKLIST.get());
         List<EntityType<?>> candidates = ForgeRegistries.ENTITY_TYPES.getValues().stream()
                 .filter(EntityType::canSummon)
                 .filter(type -> type.create(level) instanceof Mob mob && MobContainerData.canCapture(mob))
+                .filter(type -> {
+                    net.minecraft.resources.ResourceLocation id = ForgeRegistries.ENTITY_TYPES.getKey(type);
+                    return id == null || !blacklist.contains(id.toString());
+                })
                 .toList();
 
         if (candidates.isEmpty()) {

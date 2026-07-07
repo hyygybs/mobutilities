@@ -2,6 +2,8 @@ package com.hyygybs.mobutilities;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
+import java.util.List;
+
 public final class MobUtilitiesConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
@@ -35,6 +37,11 @@ public final class MobUtilitiesConfig {
     public static final ForgeConfigSpec.IntValue REGENERATOR_SPIRIT_COST = BUILDER
             .comment("Spirit items consumed by the regenerator.")
             .defineInRange("regeneratorSpiritCost", 4, 1, Integer.MAX_VALUE);
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> REGENERATOR_MOB_BLACKLIST = BUILDER
+            .comment("Entity ids that the regenerator will never create.")
+            .defineListAllowEmpty("regeneratorMobBlacklist",
+                    List.of("irons_spellbooks:debug_wizard"),
+                    value -> value instanceof String);
     public static final ForgeConfigSpec.BooleanValue ALLOW_BOSSES = BUILDER
             .comment("Whether the mob container can capture boss mobs.")
             .define("allowBosses", false);

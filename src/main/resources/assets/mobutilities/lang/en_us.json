@@ -29,5 +29,21 @@
   "tooltip.mobutilities.container.normal": "Normal",
   "tooltip.mobutilities.container.matter": "Matter: %s",
   "tooltip.mobutilities.container.spirit": "Spirit: %s",
-  "tooltip.mobutilities.container.experience": "Experience: %s"
+  "tooltip.mobutilities.container.experience": "Experience: %s",
+  "tooltip.mobutilities.item.matter.1": "Obtained by processing a filled mob container in the resolver.",
+  "tooltip.mobutilities.item.matter.2": "Used in the blood energy generator or the regenerator.",
+  "tooltip.mobutilities.item.spirit.1": "Obtained by processing a filled mob container in the resolver.",
+  "tooltip.mobutilities.item.spirit.2": "Used in the soul energy generator or the regenerator.",
+  "tooltip.mobutilities.item.experience.1": "Obtained by processing a filled mob container in the resolver.",
+  "tooltip.mobutilities.item.experience.2": "Used in the mob farm together with FE to simulate drops.",
+  "tooltip.mobutilities.machine.resolver.1": "Processes filled mob containers using fuel.",
+  "tooltip.mobutilities.machine.resolver.2": "Outputs matter, spirit, experience, and an empty mob container.",
+  "tooltip.mobutilities.machine.blood_energy_generator.1": "Consumes matter to generate FE over time.",
+  "tooltip.mobutilities.machine.blood_energy_generator.2": "Accepts speed upgrades and pushes FE to adjacent blocks.",
+  "tooltip.mobutilities.machine.soul_energy_generator.1": "Consumes spirit to generate FE over time.",
+  "tooltip.mobutilities.machine.soul_energy_generator.2": "Accepts speed upgrades and pushes FE to adjacent blocks.",
+  "tooltip.mobutilities.machine.mob_farm.1": "Consumes FE and experience to simulate loot from the stored mob.",
+  "tooltip.mobutilities.machine.mob_farm.2": "Supports speed, simulation, looting, and special upgrades.",
+  "tooltip.mobutilities.machine.regenerator.1": "Consumes an empty container, matter, spirit, and FE to create a random mob.",
+  "tooltip.mobutilities.machine.regenerator.2": "Writes the result into a new mob container."
 }

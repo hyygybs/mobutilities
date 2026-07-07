@@ -44,7 +44,7 @@ public final class MobUtilitiesConfig {
                     value -> value instanceof String);
     public static final ForgeConfigSpec.BooleanValue ALLOW_BOSSES = BUILDER
             .comment("Whether the mob container can capture boss mobs.")
-            .define("allowBosses", false);
+            .define("allowBosses", true);
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 

@@ -1,7 +1,6 @@
 package com.hyygybs.mobutilities.common.util;
 
 import com.hyygybs.mobutilities.MobUtilitiesConfig;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -71,18 +70,6 @@ public final class MobLootHelper {
 
         LootTable lootTable = level.getServer().getLootData().getLootTable(livingEntity.getLootTable());
         List<ItemStack> drops = new ArrayList<>(lootTable.getRandomItems(builder.create(LootContextParamSets.ENTITY)));
-        if (drops.isEmpty()) {
-            ResourceLocation key = ForgeRegistries.ENTITY_TYPES.getKey(livingEntity.getType());
-            if (key != null) {
-                ResourceLocation eggId = ResourceLocation.fromNamespaceAndPath(key.getNamespace(), key.getPath() + "_spawn_egg");
-                ItemStack spawnEggLike = ForgeRegistries.ITEMS.getValue(eggId) == null
-                        ? ItemStack.EMPTY
-                        : new ItemStack(ForgeRegistries.ITEMS.getValue(eggId));
-                if (!spawnEggLike.isEmpty()) {
-                    drops.add(spawnEggLike);
-                }
-            }
-        }
 
         if (lootingUpgrades > 0) {
             RandomSource random = level.random;

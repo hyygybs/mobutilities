@@ -1,0 +1,26 @@
+{
+  "type": "tconstruct:part_builder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    },
+    {
+      "type": "forge:mod_loaded",
+      "modid": "constructs_casting"
+    }
+  ],
+  "cost": 1,
+  "pattern": "constructs_casting:faceted_gem",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "constructs_casting:faceted_gem_cast"
+    }
+  ],
+  "result": {
+    "item": "constructs_casting:faceted_gem"
+  }
+}

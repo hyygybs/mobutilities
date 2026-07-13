@@ -1,6 +1,9 @@
 package com.hyygybs.mobutilities.common.event;
 
 import com.hyygybs.mobutilities.MobUtilities;
+import com.hyygybs.mobutilities.common.compat.CuriosLifeGearCompat;
+import com.hyygybs.mobutilities.common.compat.ModCompat;
+import com.hyygybs.mobutilities.common.compat.tconstruct.TinkersLifeGearCompat;
 import com.hyygybs.mobutilities.common.item.LifeGearItem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -37,6 +40,12 @@ public final class LifeGearEvents {
                 grantLifeGearExperience(armorStack, gained);
             }
             grantHotbarLifeGearExperience(player, gained);
+            if (ModCompat.isLifeSpellbookCompatEnabled()) {
+                CuriosLifeGearCompat.grantLifeGearExperience(player, gained);
+            }
+            if (ModCompat.isTinkersConstructCompatEnabled()) {
+                TinkersLifeGearCompat.grantLifeGearExperience(player, gained);
+            }
         }
 
         mobUtilitiesData.putInt(TRACKED_EXPERIENCE_TAG, currentTotalExperience);

@@ -25,6 +25,9 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.ELEMENT.get());
                         output.accept(ModItems.ORIGIN.get());
                         output.accept(ModItems.LIFE_INGOT.get());
+                        if (ModItems.LIFE_SPELLBOOK_COMPAT_ENABLED) {
+                            output.accept(ModItems.LIFE_SPELLBOOK.get());
+                        }
                         output.accept(ModItems.LIFE_PICKAXE.get());
                         output.accept(ModItems.LIFE_AXE.get());
                         output.accept(ModItems.LIFE_SHOVEL.get());

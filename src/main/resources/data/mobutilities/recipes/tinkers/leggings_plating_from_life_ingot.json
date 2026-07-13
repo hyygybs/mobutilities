@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:part_builder",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "cost": 5,
+  "pattern": "tconstruct:leggings_plating",
+  "pattern_item": [
+    {
+      "tag": "tconstruct:patterns/default"
+    },
+    {
+      "item": "tconstruct:leggings_plating_cast"
+    }
+  ],
+  "result": {
+    "item": "tconstruct:leggings_plating"
+  }
+}

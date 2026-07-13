@@ -1,6 +1,8 @@
 package com.hyygybs.mobutilities;
 
 import com.hyygybs.mobutilities.client.ClientSetup;
+import com.hyygybs.mobutilities.common.compat.ModCompat;
+import com.hyygybs.mobutilities.common.compat.tconstruct.TinkersConstructCompat;
 import com.hyygybs.mobutilities.common.registration.ModBlockEntities;
 import com.hyygybs.mobutilities.common.registration.ModBlocks;
 import com.hyygybs.mobutilities.common.registration.ModCreativeTabs;
@@ -29,6 +31,9 @@ public class MobUtilities {
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        if (ModCompat.isTinkersConstructCompatEnabled()) {
+            TinkersConstructCompat.init(modEventBus);
+        }
 
         context.registerConfig(ModConfig.Type.COMMON, MobUtilitiesConfig.SPEC);
 

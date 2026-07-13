@@ -1,0 +1,15 @@
+{
+  "type": "tconstruct:material",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "ingredient": {
+    "item": "mobutilities:life_ingot"
+  },
+  "material": "mobutilities:life_ingot",
+  "needed": 1,
+  "value": 1
+}

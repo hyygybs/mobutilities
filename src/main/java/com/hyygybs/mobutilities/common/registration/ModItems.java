@@ -1,6 +1,7 @@
 package com.hyygybs.mobutilities.common.registration;
 
 import com.hyygybs.mobutilities.MobUtilities;
+import com.hyygybs.mobutilities.common.compat.ModCompat;
 import com.hyygybs.mobutilities.common.item.LifeArmorItem;
 import com.hyygybs.mobutilities.common.item.LifeArmorMaterial;
 import com.hyygybs.mobutilities.common.item.LifeAxeItem;
@@ -8,6 +9,7 @@ import com.hyygybs.mobutilities.common.item.LifeBowItem;
 import com.hyygybs.mobutilities.common.item.LifeHoeItem;
 import com.hyygybs.mobutilities.common.item.LifePickaxeItem;
 import com.hyygybs.mobutilities.common.item.LifeShovelItem;
+import com.hyygybs.mobutilities.common.item.LifeSpellBookItem;
 import com.hyygybs.mobutilities.common.item.LifeSwordItem;
 import com.hyygybs.mobutilities.common.item.MobContainerItem;
 import com.hyygybs.mobutilities.common.item.TooltipBlockItem;
@@ -22,6 +24,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public final class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MobUtilities.MOD_ID);
+    public static final boolean LIFE_SPELLBOOK_COMPAT_ENABLED = ModCompat.isLifeSpellbookCompatEnabled();
 
     public static final RegistryObject<Item> MATTER = ITEMS.register("matter",
             () -> new TooltipItem(new Item.Properties(), "tooltip.mobutilities.item.matter", 2));
@@ -36,6 +39,9 @@ public final class ModItems {
 
     public static final RegistryObject<Item> LIFE_INGOT = ITEMS.register("life_ingot",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> LIFE_SPELLBOOK = LIFE_SPELLBOOK_COMPAT_ENABLED
+            ? ITEMS.register("life_spellbook", () -> new LifeSpellBookItem(new Item.Properties().stacksTo(1)))
+            : null;
     public static final RegistryObject<Item> LIFE_PICKAXE = ITEMS.register("life_pickaxe",
             () -> new LifePickaxeItem(Tiers.DIAMOND, 1, -2.8F, new Item.Properties()));
     public static final RegistryObject<Item> LIFE_AXE = ITEMS.register("life_axe",

@@ -88,6 +88,18 @@ public interface LifeGearItem {
         return getLifeLevel(stack);
     }
 
+    default double getSpellPowerBonus(ItemStack stack) {
+        return getLifeLevel(stack) * 0.05D;
+    }
+
+    default double getCastTimeReductionBonus(ItemStack stack) {
+        return getLifeLevel(stack) * 0.05D;
+    }
+
+    default double getMaxManaBonus(ItemStack stack) {
+        return getLifeLevel(stack) * 50.0D;
+    }
+
     static int getExperienceForNextLevel(int level) {
         if (level >= 30) {
             return 112 + ((level - 30) * 9);

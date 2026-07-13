@@ -1,6 +1,8 @@
 package com.hyygybs.mobutilities.client;
 
+import com.hyygybs.mobutilities.client.compat.CuriosIronSpellbooksClientCompat;
 import com.hyygybs.mobutilities.client.screen.MachineScreen;
+import com.hyygybs.mobutilities.common.registration.ModItems;
 import com.hyygybs.mobutilities.common.registration.ModMenus;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -21,6 +23,9 @@ public final class ClientSetup {
             MenuScreens.register(ModMenus.RESOLVER.get(), MachineScreen::new);
             MenuScreens.register(ModMenus.REGENERATOR.get(), MachineScreen::new);
             MenuScreens.register(ModMenus.MOB_FARM.get(), MachineScreen::new);
+            if (ModItems.LIFE_SPELLBOOK_COMPAT_ENABLED) {
+                CuriosIronSpellbooksClientCompat.registerLifeSpellbookRenderer();
+            }
         });
     }
 }

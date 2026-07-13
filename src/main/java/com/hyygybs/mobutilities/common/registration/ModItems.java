@@ -35,7 +35,7 @@ public final class ModItems {
             () -> new TooltipItem(new Item.Properties(), "tooltip.mobutilities.item.origin", 2));
 
     public static final RegistryObject<Item> LIFE_INGOT = ITEMS.register("life_ingot",
-            () -> new TooltipItem(new Item.Properties(), "tooltip.mobutilities.item.life_ingot", 2));
+            () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LIFE_PICKAXE = ITEMS.register("life_pickaxe",
             () -> new LifePickaxeItem(Tiers.DIAMOND, 1, -2.8F, new Item.Properties()));
     public static final RegistryObject<Item> LIFE_AXE = ITEMS.register("life_axe",

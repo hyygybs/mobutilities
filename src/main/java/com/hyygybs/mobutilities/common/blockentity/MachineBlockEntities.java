@@ -297,8 +297,8 @@ public final class MachineBlockEntities {
                 return;
             }
 
-            List<ItemStack> drops = MobLootHelper.generateLoot((ServerLevel) level, optionalData.get(), hasSimulationUpgrade(), getLootingCount());
-            if (!canAcceptAllDrops(drops, 1, 2, 3, 4, 5, 6)) {
+            List<ItemStack> outputs = createFarmOutputs((ServerLevel) level, optionalData.get());
+            if (!canAcceptAllDrops(outputs, 1, 2, 3, 4, 5, 6)) {
                 resetProgress();
                 setLit(false);
                 return;
@@ -309,16 +309,8 @@ public final class MachineBlockEntities {
             if (progress >= maxProgress) {
                 itemHandler.extractItem(7, MobUtilitiesConfig.FARM_EXPERIENCE_PER_OPERATION.get(), false);
                 consumeEnergy(MobUtilitiesConfig.FARM_ENERGY_PER_OPERATION.get());
-                for (ItemStack drop : drops) {
-                    insertOrDrop(drop, 1, 2, 3, 4, 5, 6);
-                }
-                if (hasSpecialUpgrade()) {
-                    MobContainerData data = optionalData.get();
-                    insertOrDrop(new ItemStack(ModItems.MATTER.get(), Math.max(1, data.matterValue() / 2)), 1, 2, 3, 4, 5, 6);
-                    insertOrDrop(new ItemStack(ModItems.SPIRIT.get(), Math.max(1, data.spiritValue() / 2)), 1, 2, 3, 4, 5, 6);
-                    insertOrDrop(new ItemStack(ModItems.EXPERIENCE.get(), Math.max(1, data.experienceValue() / 2)), 1, 2, 3, 4, 5, 6);
-                    insertOrDrop(new ItemStack(ModItems.ELEMENT.get(), 1), 1, 2, 3, 4, 5, 6);
-                    insertOrDrop(new ItemStack(ModItems.ORIGIN.get(), 1), 1, 2, 3, 4, 5, 6);
+                for (ItemStack output : outputs) {
+                    insertOrDrop(output, 1, 2, 3, 4, 5, 6);
                 }
                 resetProgress();
             }
@@ -337,6 +329,20 @@ public final class MachineBlockEntities {
                 }
             }
             return true;
+        }
+
+        private List<ItemStack> createFarmOutputs(ServerLevel serverLevel, MobContainerData data) {
+            if (!hasSpecialUpgrade()) {
+                return MobLootHelper.generateLoot(serverLevel, data, hasSimulationUpgrade(), getLootingCount());
+            }
+
+            return List.of(
+                    new ItemStack(ModItems.MATTER.get(), Math.max(1, data.matterValue() / 2)),
+                    new ItemStack(ModItems.SPIRIT.get(), Math.max(1, data.spiritValue() / 2)),
+                    new ItemStack(ModItems.EXPERIENCE.get(), Math.max(1, data.experienceValue() / 2)),
+                    new ItemStack(ModItems.ELEMENT.get(), 1),
+                    new ItemStack(ModItems.ORIGIN.get(), 1)
+            );
         }
 
         @Override

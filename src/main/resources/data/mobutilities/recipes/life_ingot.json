@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "mobutilities:matter"
+    },
+    {
+      "item": "mobutilities:spirit"
+    },
+    {
+      "item": "mobutilities:experience"
+    },
+    {
+      "item": "mobutilities:element"
+    },
+    {
+      "item": "mobutilities:origin"
+    }
+  ],
+  "result": {
+    "item": "mobutilities:life_ingot",
+    "count": 1
+  }
+}

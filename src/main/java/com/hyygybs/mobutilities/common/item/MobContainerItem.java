@@ -50,16 +50,15 @@ public class MobContainerItem extends Item {
         ItemStack filledStack = new ItemStack(ModItems.MOB_CONTAINER_FILLED.get());
         data.writeTo(filledStack);
 
-        stack.shrink(1);
-        if (stack.isEmpty()) {
-            player.setItemInHand(usedHand, filledStack);
-        } else if (!player.getInventory().add(filledStack)) {
-            player.drop(filledStack, false);
+        if (!player.getAbilities().instabuild) {
+            giveCapturedContainer(player, usedHand, stack, filledStack);
+        } else if (!player.getInventory().contains(filledStack)) {
+            player.getInventory().add(filledStack);
         }
 
         level.playSound(null, mob.blockPosition(), SoundEvents.BOTTLE_FILL_DRAGONBREATH, SoundSource.PLAYERS, 0.8F, 1.15F);
         mob.discard();
-        return InteractionResult.CONSUME;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
@@ -93,16 +92,11 @@ public class MobContainerItem extends Item {
         Player player = context.getPlayer();
         if (player != null && !player.getAbilities().instabuild) {
             ItemStack emptyStack = new ItemStack(ModItems.MOB_CONTAINER_EMPTY.get());
-            stack.shrink(1);
-            if (stack.isEmpty()) {
-                player.setItemInHand(context.getHand(), emptyStack);
-            } else if (!player.getInventory().add(emptyStack)) {
-                player.drop(emptyStack, false);
-            }
+            player.setItemInHand(context.getHand(), emptyStack);
         }
 
         level.playSound(null, spawnPos, SoundEvents.BOTTLE_EMPTY, SoundSource.PLAYERS, 0.8F, 0.9F);
-        return InteractionResult.CONSUME;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override
@@ -121,6 +115,20 @@ public class MobContainerItem extends Item {
             MobContainerData.fromStack(stack).ifPresent(data -> tooltip.addAll(data.createTooltip()));
         } else {
             tooltip.add(net.minecraft.network.chat.Component.translatable("tooltip.mobutilities.container.capture_hint").withStyle(ChatFormatting.GRAY));
+        }
+    }
+
+    private static void giveCapturedContainer(Player player, InteractionHand usedHand, ItemStack originalStack, ItemStack filledStack) {
+        if (originalStack.getCount() <= 1) {
+            player.setItemInHand(usedHand, filledStack);
+            return;
+        }
+
+        ItemStack remainingEmptyContainers = originalStack.copy();
+        remainingEmptyContainers.shrink(1);
+        player.setItemInHand(usedHand, filledStack);
+        if (!player.getInventory().add(remainingEmptyContainers)) {
+            player.drop(remainingEmptyContainers, false);
         }
     }
 }

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L L",
+    "LLL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "mobutilities:life_ingot"
+    }
+  },
+  "result": {
+    "item": "mobutilities:life_chestplate",
+    "count": 1
+  }
+}

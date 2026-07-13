@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "L L",
+    "L L"
+  ],
+  "key": {
+    "L": {
+      "item": "mobutilities:life_ingot"
+    }
+  },
+  "result": {
+    "item": "mobutilities:life_leggings",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " LS",
+    "L S",
+    " LS"
+  ],
+  "key": {
+    "L": {
+      "item": "mobutilities:life_ingot"
+    },
+    "S": {
+      "item": "mobutilities:life_ingot"
+    }
+  },
+  "result": {
+    "item": "mobutilities:life_bow",
+    "count": 1
+  }
+}

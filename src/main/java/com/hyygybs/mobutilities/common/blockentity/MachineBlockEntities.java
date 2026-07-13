@@ -317,6 +317,8 @@ public final class MachineBlockEntities {
                     insertOrDrop(new ItemStack(ModItems.MATTER.get(), Math.max(1, data.matterValue() / 2)), 1, 2, 3, 4, 5, 6);
                     insertOrDrop(new ItemStack(ModItems.SPIRIT.get(), Math.max(1, data.spiritValue() / 2)), 1, 2, 3, 4, 5, 6);
                     insertOrDrop(new ItemStack(ModItems.EXPERIENCE.get(), Math.max(1, data.experienceValue() / 2)), 1, 2, 3, 4, 5, 6);
+                    insertOrDrop(new ItemStack(ModItems.ELEMENT.get(), 1), 1, 2, 3, 4, 5, 6);
+                    insertOrDrop(new ItemStack(ModItems.ORIGIN.get(), 1), 1, 2, 3, 4, 5, 6);
                 }
                 resetProgress();
             }

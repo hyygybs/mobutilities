@@ -1,6 +1,7 @@
 package com.hyygybs.mobutilities.common.compat.tconstruct;
 
 import com.hyygybs.mobutilities.MobUtilities;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.library.modifiers.util.ModifierDeferredRegister;
@@ -16,5 +17,6 @@ public final class TinkersConstructCompat {
 
     public static void init(IEventBus eventBus) {
         MODIFIERS.register(eventBus);
+        MinecraftForge.EVENT_BUS.addListener(TinkersGrowableTooltipCompat::onItemTooltip);
     }
 }

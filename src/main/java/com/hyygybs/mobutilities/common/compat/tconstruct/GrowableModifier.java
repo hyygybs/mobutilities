@@ -47,7 +47,7 @@ public class GrowableModifier extends Modifier implements DurabilityDisplayModif
 
     @Override
     public Boolean showDurabilityBar(IToolStackView tool, ModifierEntry modifier) {
-        return Boolean.TRUE;
+        return Boolean.FALSE;
     }
 
     @Override

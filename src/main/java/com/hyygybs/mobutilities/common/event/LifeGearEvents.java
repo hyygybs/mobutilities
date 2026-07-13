@@ -3,6 +3,7 @@ package com.hyygybs.mobutilities.common.event;
 import com.hyygybs.mobutilities.MobUtilities;
 import com.hyygybs.mobutilities.common.compat.CuriosLifeGearCompat;
 import com.hyygybs.mobutilities.common.compat.ModCompat;
+import com.hyygybs.mobutilities.common.compat.tconstruct.CuriosTinkersLifeGearCompat;
 import com.hyygybs.mobutilities.common.compat.tconstruct.TinkersLifeGearCompat;
 import com.hyygybs.mobutilities.common.item.LifeGearItem;
 import net.minecraft.nbt.CompoundTag;
@@ -45,6 +46,9 @@ public final class LifeGearEvents {
             }
             if (ModCompat.isTinkersConstructCompatEnabled()) {
                 TinkersLifeGearCompat.grantLifeGearExperience(player, gained);
+            }
+            if (ModCompat.isLifeSpellbookCompatEnabled() && ModCompat.isTinkersConstructCompatEnabled()) {
+                CuriosTinkersLifeGearCompat.grantLifeGearExperience(player, gained);
             }
         }
 

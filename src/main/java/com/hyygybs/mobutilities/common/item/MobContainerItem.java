@@ -38,27 +38,10 @@ public class MobContainerItem extends Item {
 
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
-        if (filledVariant || !(interactionTarget instanceof Mob mob) || !MobContainerData.canCapture(interactionTarget)) {
+        if (filledVariant) {
             return InteractionResult.PASS;
         }
-        Level level = player.level();
-        if (level.isClientSide) {
-            return InteractionResult.sidedSuccess(true);
-        }
-
-        MobContainerData data = MobContainerData.fromEntity(mob);
-        ItemStack filledStack = new ItemStack(ModItems.MOB_CONTAINER_FILLED.get());
-        data.writeTo(filledStack);
-
-        if (!player.getAbilities().instabuild) {
-            giveCapturedContainer(player, usedHand, stack, filledStack);
-        } else if (!player.getInventory().contains(filledStack)) {
-            player.getInventory().add(filledStack);
-        }
-
-        level.playSound(null, mob.blockPosition(), SoundEvents.BOTTLE_FILL_DRAGONBREATH, SoundSource.PLAYERS, 0.8F, 1.15F);
-        mob.discard();
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return tryCaptureMob(stack, player, interactionTarget, usedHand);
     }
 
     @Override
@@ -130,5 +113,34 @@ public class MobContainerItem extends Item {
         if (!player.getInventory().add(remainingEmptyContainers)) {
             player.drop(remainingEmptyContainers, false);
         }
+    }
+
+    public static InteractionResult tryCaptureMob(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
+        if (stack.isEmpty()
+                || !(stack.getItem() instanceof MobContainerItem containerItem)
+                || containerItem.isFilledVariant()
+                || !(interactionTarget instanceof Mob mob)
+                || !MobContainerData.canCapture(interactionTarget)) {
+            return InteractionResult.PASS;
+        }
+
+        Level level = player.level();
+        if (level.isClientSide) {
+            return InteractionResult.sidedSuccess(true);
+        }
+
+        MobContainerData data = MobContainerData.fromEntity(mob);
+        ItemStack filledStack = new ItemStack(ModItems.MOB_CONTAINER_FILLED.get());
+        data.writeTo(filledStack);
+
+        if (!player.getAbilities().instabuild) {
+            giveCapturedContainer(player, usedHand, stack, filledStack);
+        } else if (!player.getInventory().contains(filledStack)) {
+            player.getInventory().add(filledStack);
+        }
+
+        level.playSound(null, mob.blockPosition(), SoundEvents.BOTTLE_FILL_DRAGONBREATH, SoundSource.PLAYERS, 0.8F, 1.15F);
+        mob.discard();
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 }

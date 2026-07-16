@@ -19,42 +19,53 @@ import net.minecraftforge.common.util.FakePlayerFactory;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public final class MobLootHelper {
     private static final UUID FAKE_PLAYER_UUID = UUID.fromString("f7db4fd1-6bc4-4d0e-b682-4315d52fc2fb");
+    private static final Set<ResourceLocation> LOGGED_RANDOM_MOB_FAILURES = new HashSet<>();
 
     private MobLootHelper() {
     }
 
     public static Optional<MobContainerData> createRandomMob(ServerLevel level) {
-        List<EntityType<?>> candidates = ForgeRegistries.ENTITY_TYPES.getValues().stream()
+        List<MobContainerData> candidates = ForgeRegistries.ENTITY_TYPES.getValues().stream()
                 .filter(EntityType::canSummon)
-                .filter(type -> type.create(level) instanceof Mob mob && MobContainerData.canCapture(mob))
-                .filter(type -> hasEntityLootTable(level, type))
+                .map(type -> createRandomMobCandidate(level, type))
+                .flatMap(Optional::stream)
                 .toList();
 
         if (candidates.isEmpty()) {
             return Optional.empty();
         }
 
-        EntityType<?> entityType = candidates.get(level.random.nextInt(candidates.size()));
-        Entity entity = entityType.create(level);
-        if (!(entity instanceof LivingEntity livingEntity)) {
-            return Optional.empty();
-        }
-
-        return Optional.of(MobContainerData.fromEntity(livingEntity));
+        return Optional.of(candidates.get(level.random.nextInt(candidates.size())));
     }
 
-    private static boolean hasEntityLootTable(ServerLevel level, EntityType<?> type) {
-        Entity entity = type.create(level);
-        if (!(entity instanceof LivingEntity livingEntity)) {
-            return false;
+    private static Optional<MobContainerData> createRandomMobCandidate(ServerLevel level, EntityType<?> type) {
+        ResourceLocation entityId = ForgeRegistries.ENTITY_TYPES.getKey(type);
+        try {
+            Entity entity = type.create(level);
+            if (!(entity instanceof LivingEntity livingEntity) || !(livingEntity instanceof Mob) || !MobContainerData.canCapture(livingEntity)) {
+                return Optional.empty();
+            }
+            if (!hasEntityLootTable(level, livingEntity)) {
+                return Optional.empty();
+            }
+            return Optional.of(MobContainerData.fromEntity(livingEntity));
+        } catch (Throwable throwable) {
+            if (entityId != null && LOGGED_RANDOM_MOB_FAILURES.add(entityId)) {
+                MobUtilities.LOGGER.warn("Skipping invalid regenerator candidate entity type {}", entityId, throwable);
+            }
+            return Optional.empty();
         }
+    }
 
+    private static boolean hasEntityLootTable(ServerLevel level, LivingEntity livingEntity) {
         ResourceLocation lootTableId = livingEntity.getLootTable();
         if (lootTableId == null || lootTableId.getPath().isBlank()) {
             return false;

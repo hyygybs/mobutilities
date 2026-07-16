@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "mobutilities:blood_energy_generator",
+    "mobutilities:soul_energy_generator",
+    "mobutilities:mob_farm",
+    "mobutilities:regenerator",
+    "mobutilities:resolver"
+  ]
+}
